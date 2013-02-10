@@ -32,4 +32,5 @@ X = [ y for (x,y) in data ]
 Y = [ x for (x,y) in data ]
 
 plt.plot( X, Y, ':rs' )
+plt.axis([0,24,0,300])
 plt.show()
