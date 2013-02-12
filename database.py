@@ -39,4 +39,4 @@ class Database:
         return self.cursor.fetchall()
 
     def commit(self):
-        self.db.commit()
+        self.connection.commit()
