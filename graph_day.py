@@ -5,28 +5,27 @@ import sys
 import numpy as np
 import matplotlib.pyplot as plt
 
-conn = None
-conn = sqlite3.connect('database.db')
+from database import Database
+
+db = Database()
+db.open()
 data = []
 
-with conn:
-	cur = conn.cursor()
-	print("Enter date to graph: ")
-	date = raw_input("")
+print("Enter date to graph: ")
+date = raw_input("")
 
-	date = (date,)
+date = (date,)
 
-	cur.execute('select * from glucose where date=?', date)
-	rows = cur.fetchall()
+rows = db.select('select * from glucose where date=?', date)
 
-	if rows == None:
-		print("Not a valid date. Exiting...")
-		sys.exit(1)
+if rows == None:
+    print("Not a valid date. Exiting...")
+    sys.exit(1)
 
-	for row in rows:
-		data.append( (row[2], int(row[1][0:2])) )
+for row in rows:
+    data.append( (row[2], int(row[1][0:2])) )
 
-	print data
+print data
 
 X = [ y for (x,y) in data ]
 Y = [ x for (x,y) in data ]
