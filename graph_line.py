@@ -1,39 +1,37 @@
 #!/usr/bin/env python
 
-import sqlite3
 import sys
-import numpy as np
-import matplotlib.pyplot as plt
 
 from database import Database
 from graph import Graph
 
-db = Database()
-g = Graph()
-db.open()
-data = []
+class Graph_Line:
+    db = None
+    g = None
 
-print("Enter date to graph: ")
-date = raw_input("")
+    def __init__(self):
+        self.db = Database()
+        self.g = Graph()
 
-date = (date,)
+    def one_day(self, date):
+        self.db.open()
+        date = (date,)
+        rows = self.db.select('select * from glucose where date=?', date)
+        data = [] 
 
-rows = db.select('select * from glucose where date=?', date)
+        if rows == None:
+            print("Not a valid date. Exiting...")
+            self.db.close()
+            sys.exit(1)
 
-if rows == None:
-    print("Not a valid date. Exiting...")
-    sys.exit(1)
+        for row in rows:
+            data.append( (row[2], int(row[1][0:2])) )
 
-for row in rows:
-    data.append( (row[2], int(row[1][0:2])) )
+        self.db.close()
 
-print data
+        X = [ y for (x,y) in data ]
+        Y = [ x for (x,y) in data ]
 
-X = [ y for (x,y) in data ]
-Y = [ x for (x,y) in data ]
-
-g.single_line( X, Y, ':rs' )
-g.title("Glucose levels by time of day on " + date[0])
-g.show()
-
-db.close()
+        self.g.single_line( X, Y, ':rs' )
+        self.g.title("Glucose levels by time of day on " + date[0])
+        self.g.show()
