@@ -24,6 +24,12 @@ class Database:
         else:
             self.cursor.execute(command)
 
+    def executemany(self, command, data=None):
+        if data!=None:
+            self.cursor.executemany(command, data)
+        else:
+            self.cursor.executemany(command)
+
     def select(self, command, data=None):
         if data!=None:
             self.cursor.execute(command, data)
@@ -31,3 +37,6 @@ class Database:
             self.cursor.execute(command)
 
         return self.cursor.fetchall()
+
+    def commit(self):
+        self.db.commit()
