@@ -25,7 +25,8 @@ class Graph_Line:
             sys.exit(1)
 
         for row in rows:
-            data.append( (row[2], int(row[1][0:2])) )
+            time = int(row[1][0:2]) + (float(row[1][3:5])/60) 
+            data.append( (row[2], time) )
 
         self.db.close()
 
