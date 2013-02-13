@@ -32,6 +32,6 @@ class Graph_Line:
         X = [ y for (x,y) in data ]
         Y = [ x for (x,y) in data ]
 
-        self.g.single_line( X, Y, ':rs' )
+        self.g.single_line( X, Y, ':rs', range(0,23), range(20,320,20) )
         self.g.title("Glucose levels by time of day on " + date[0])
         self.g.show()
