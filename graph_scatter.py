@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import sys
+import numpy as np
 
 from database import Database
 from graph import Graph
@@ -30,6 +31,30 @@ class Graph_Scatter:
         X = [ y for (x,y) in data ]
         Y = [ x for (x,y) in data ]
 
-        self.g.single_line(X, Y, 'rs', range(0,23), range(20,320,20))
+        self.g.axis([0,24,0,320], range(0,23), range(20,320,20))
+        self.g.single_line(X, Y, 'rs')
+        self.g.title("Glucose levels by time of day.")
+        self.g.show()
+
+    def scatter_morning(self):
+        self.db.open()
+        rows = self.db.select("select * from glucose where time >= '05' and time <='10' + 'ZZZZZ'")
+        data = []
+
+        if rows == None:
+            print("No data in the database. Something went wrong. Exiting...")
+            sys.exit(1)
+
+        for row in rows:
+            data.append( (row[2], int(row[1][0:2])) )
+            print row
+
+        self.db.close()
+
+        X = [ y for (x,y) in data ]
+        Y = [ x for (x,y) in data ]
+
+        self.g.axis([5,10,20,320], np.arange(5,10,.5), range(20,320,20))
+        self.g.single_line(X, Y, 'rs')
         self.g.title("Glucose levels by time of day.")
         self.g.show()
