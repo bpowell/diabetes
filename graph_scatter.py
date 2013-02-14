@@ -55,7 +55,7 @@ class Graph_Scatter:
         X = [ y for (x,y) in data ]
         Y = [ x for (x,y) in data ]
 
-        self.g.axis([5,10,20,320], np.arange(5,10,.5), range(20,320,20))
+        self.g.axis([5,10,20,320], np.arange(5,10,.25), range(20,320,20))
         self.g.single_line(X, Y, 'rs')
         self.g.title("Glucose levels by time of day.")
         self.g.show()
