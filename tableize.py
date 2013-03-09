@@ -3,6 +3,7 @@
 import csv
 import datetime
 import sys
+import math
 
 from database import Database
 
@@ -25,6 +26,7 @@ class Tableize:
             row = self.get_row()
 
         self.data.append(self.hourly_avg())
+	self.data.append(["Std", self.two_pass_variance()])
 
         with open('table.csv', 'wb') as f:
             w = csv.writer(f)
@@ -70,3 +72,24 @@ class Tableize:
                 row.append(sum(d)/len(d))
 	
         return row
+
+    def two_pass_variance(self):
+	a = self.db.select('select level from glucose')
+	d = []
+	for x in a:
+	    d.append(x[0])
+
+	n = 0
+	mean = 0
+	M2 = 0
+
+	for x in d:
+	    n = n + 1
+	    delta  = x - mean
+	    mean = mean + delta/n
+	    M2 = M2 + delta*(x-mean)
+
+	var = M2/(n-1)
+	return math.sqrt(var)
+	    
+
