@@ -60,7 +60,7 @@ class Tableize:
         row.append("Average")
 
         for i in range(25):
-            d = [row[i+1] for row in self.data[1:]]
+            d = [r[i+1] for r in self.data[1:]]
             d = filter(None, d)
             d = map(int, d)
 
@@ -68,5 +68,5 @@ class Tableize:
                 row.append(None)
             else:
                 row.append(sum(d)/len(d))
-
+	
         return row
