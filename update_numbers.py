@@ -19,6 +19,8 @@ for day in range(num_days):
 		
 		data.append([date, t, g, None])
 
+	print("\n")
+
 with open('glucose.csv', 'a') as csvfile:
 	w = csv.writer(csvfile, delimiter=',', lineterminator='\n')
 	for d in data:
